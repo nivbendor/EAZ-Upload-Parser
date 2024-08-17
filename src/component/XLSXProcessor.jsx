@@ -121,15 +121,43 @@ const CSVProcessor = () => {
   };
 
   return (
-    <div className="p-4">
-      <input type="file" onChange={handleFileUpload} accept=".csv" className="mb-4" />
-      <button onClick={handleProcessFile} className="mb-4">Process File</button>
-      
-      {error && <p className="text-red-500">{error}</p>}
-      
-      {processedData.length > 0 && (
-        <>
-          <table className="border-collapse border border-gray-400 w-full">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4 sm:px-6 lg:px-8">
+      <div className="max-w-3xl w-full space-y-8">
+        <div className="bg-white shadow-md rounded-lg p-6">
+          <h1 className="text-3xl font-bold text-center text-gray-900 mb-8">
+            CSV/XLSX Processor
+          </h1>
+          <div className="mb-6">
+            <label htmlFor="file-upload" className="block text-sm font-medium text-gray-700 mb-2">
+              Upload CSV File
+            </label>
+            <input
+              id="file-upload"
+              type="file"
+              onChange={handleFileUpload}
+              accept=".csv"
+              className="block w-full text-sm text-gray-500
+                file:mr-4 file:py-2 file:px-4
+                file:rounded-full file:border-0
+                file:text-sm file:font-semibold
+                file:bg-blue-50 file:text-blue-700
+                hover:file:bg-blue-100"
+            />
+          </div>
+          <button
+            onClick={handleProcessFile}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+          >
+            Process File
+          </button>
+          
+          {error && <p className="mt-4 text-red-500">{error}</p>}
+          
+                  
+          {processedData.length > 0 && (
+            <div className="mt-8">
+              <div className="overflow-x-auto">
+              <table className="border-collapse border border-gray-400 w-full">
             <thead>
               <tr>
                 {Object.keys(processedData[0]).map(key => (
@@ -147,12 +175,27 @@ const CSVProcessor = () => {
               ))}
             </tbody>
           </table>
-          <button onClick={handleDownload} className="mt-4">Download Processed XLSX</button>
-          {showConsoleButton && (
-            <button onClick={downloadLogs} className="mt-4 ml-4">Download Console Logs</button>
+              </div>
+              <div className="mt-6 flex justify-center space-x-4">
+                <button
+                  onClick={handleDownload}
+                  className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+                >
+                  Download Processed XLSX
+                </button>
+                {showConsoleButton && (
+                  <button
+                    onClick={downloadLogs}
+                    className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+                  >
+                    Download Console Logs
+                  </button>
+                )}
+              </div>
+            </div>
           )}
-        </>
-      )}
+        </div>
+      </div>
     </div>
   );
 };
