@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import XLSXProcessor from './component/XLSXProcessor';
 import { fetchDataDaily } from './component/GoogleSheetsAPI';
+import ActiveCampaignProcessor from './component/ActiveCampaignProcessor';
+
 
 function App() {
   const [sheetData, setSheetData] = useState<any[]>([]);
@@ -35,7 +37,10 @@ function App() {
       <h1>XLSX Processor with Google Sheets Integration</h1>
       
       {/* Original XLSXProcessor component */}
-      <XLSXProcessor />
+      {/* <XLSXProcessor /> */}
+
+      {/* New ActiveCampaignProcessor component */}
+      <ActiveCampaignProcessor />
 
       {/* Google Sheets Data Display */}
       <div className="google-sheets-data">
