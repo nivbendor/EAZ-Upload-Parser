@@ -4,7 +4,9 @@ import * as XLSX from 'xlsx';
 
 // Configuration
 const API_KEY = '1de595cbdca6aae9edb4b135e5f3aadc12429c1ee1f083c631642d6e95f7e77377fb807e';
-const API_URL = 'https://cakewalkbenefits36408.api-us1.com';
+const BASE_URL = 'https://cakewalkbenefits36408.api-us1.com';
+const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
+const API_URL = `${CORS_PROXY}${BASE_URL}`;
 const LIST_ID = '2';
 
 interface Contact {
@@ -41,13 +43,19 @@ const ActiveCampaignProcessor: React.FC = () => {
   const getActiveCampaignContacts = async (): Promise<Contact[]> => {
     let allContacts: Contact[] = [];
     let url = `${API_URL}/api/3/contacts?listid=${LIST_ID}&limit=100`;
-    const headers = { 'Api-Token': API_KEY };
+    const headers = { 
+      'Api-Token': API_KEY,
+      'Origin': 'http://localhost:3000'
+    };
 
     while (url) {
+    console.log('Making request to:', url);
       const response = await axios.get<ApiResponse>(url, { headers });
+      console.log('Response:', response);
+
       if (response.status === 200) {
         allContacts = [...allContacts, ...response.data.contacts];
-        url = response.data.meta.next || '';
+        url = response.data.meta.next ? `${CORS_PROXY}${response.data.meta.next}` : '';
       } else {
         throw new Error(`Failed to fetch data. Status Code: ${response.status}`);
       }
@@ -58,7 +66,9 @@ const ActiveCampaignProcessor: React.FC = () => {
 
   const getCustomFields = async (): Promise<Record<string, string>> => {
     const url = `${API_URL}/api/3/fields`;
-    const headers = { 'Api-Token': API_KEY };
+    const headers = { 'Api-Token': API_KEY,     
+    'Origin': 'http://localhost:3000'
+    };
     const response = await axios.get<{ fields: CustomField[] }>(url, { headers });
 
     if (response.status === 200) {
