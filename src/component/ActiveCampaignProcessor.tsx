@@ -6,7 +6,7 @@ import * as XLSX from 'xlsx';
 const API_KEY = '1de595cbdca6aae9edb4b135e5f3aadc12429c1ee1f083c631642d6e95f7e77377fb807e';
 const BASE_URL = 'https://cakewalkbenefits36408.api-us1.com';
 const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
-const API_URL = `${CORS_PROXY}${BASE_URL}`;
+const API_URL = `https://api.allorigins.win/raw?url=${encodeURIComponent(BASE_URL)}`;
 const LIST_ID = '2';
 
 interface Contact {
