@@ -2,14 +2,18 @@ import React, { useEffect, useState } from 'react';
 import XLSXProcessor from './component/XLSXProcessor';
 import { fetchDataDaily } from './component/GoogleSheetsAPI';
 import ActiveCampaignProcessor from './component/ActiveCampaignProcessor';
-
+import DashboardApp from './component/DashboardApp';
 
 function App() {
+  const [showBudget, setShowBudget] = useState(false);
   const [sheetData, setSheetData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    setShowBudget(searchParams.has('budget'));
+
     const fetchData = async () => {
       try {
         setIsLoading(true);
@@ -25,24 +29,18 @@ function App() {
     };
 
     fetchData();
-    // Set up a daily interval to fetch data
-    const intervalId = setInterval(fetchData, 24 * 60 * 60 * 1000); // 24 hours
-
-    // Clean up the interval on component unmount
+    const intervalId = setInterval(fetchData, 24 * 60 * 60 * 1000);
     return () => clearInterval(intervalId);
   }, []);
+
+  if (showBudget) {
+    return <DashboardApp />;
+  }
 
   return (
     <div className="App">
       <h1>XLSX Processor with Google Sheets Integration</h1>
-      
-      {/* Original XLSXProcessor component */}
-      {/* <XLSXProcessor /> */}
-
-      {/* New ActiveCampaignProcessor component */}
       <ActiveCampaignProcessor />
-
-      {/* Google Sheets Data Display */}
       <div className="google-sheets-data">
         <h2>Google Sheets Data</h2>
         {isLoading && <p>Loading data from Google Sheets...</p>}
