@@ -10,9 +10,11 @@ const DashboardApp = () => {
     const [payrollData, setPayrollData] = useState([
         { id: 1, role: 'Lead Engineer', monthlySalary: 18000, startMonth: 'Jan', endMonth: 'Dec', isEditing: false },
         { id: 2, role: 'Product Manager 1', monthlySalary: 16000, startMonth: 'Jan', endMonth: 'Dec', isEditing: false },
-        { id: 3, role: 'Frontend Engineer', monthlySalary: 17000, startMonth: 'Apr', endMonth: 'Dec', isEditing: false },
-        { id: 4, role: 'UX Designer', monthlySalary: 7000, startMonth: 'May', endMonth: 'Dec', isEditing: false },
-        { id: 5, role: 'Product Manager 2', monthlySalary: 16000, startMonth: 'Jul', endMonth: 'Dec', isEditing: false }
+        { id: 3, role: 'UX Designer - Outsource', monthlySalary: 3000, startMonth: 'Jan', endMonth: 'February', isEditing: false },
+        { id: 4, role: 'BI Analyst', monthlySalary: 15000, startMonth: 'Mar', endMonth: 'Dec', isEditing: false },
+        { id: 5, role: 'Frontend Engineer', monthlySalary: 17000, startMonth: 'Apr', endMonth: 'Dec', isEditing: false },
+        { id: 6, role: 'UX Designer', monthlySalary: 7000, startMonth: 'May', endMonth: 'Dec', isEditing: false },
+        { id: 7, role: 'Product Manager 2', monthlySalary: 16000, startMonth: 'Jul', endMonth: 'Dec', isEditing: false }
     ]);
 
     const [monthlyData, setMonthlyData] = useState([]);
@@ -35,9 +37,41 @@ const DashboardApp = () => {
             'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
             'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
         };
-        const months = monthMap[endMonth] - monthMap[startMonth] + 1;
-        return months * monthlySalary;
+    
+        const normalizeMonth = (month) => {
+            const monthAbbreviations = {
+                January: 'Jan', February: 'Feb', March: 'Mar', April: 'Apr',
+                May: 'May', June: 'Jun', July: 'Jul', August: 'Aug',
+                September: 'Sep', October: 'Oct', November: 'Nov', December: 'Dec'
+            };
+            return monthAbbreviations[month] || month;
+        };
+    
+        const normalizedStart = normalizeMonth(startMonth);
+        const normalizedEnd = normalizeMonth(endMonth);
+    
+        const startIdx = monthMap[normalizedStart];
+        const endIdx = monthMap[normalizedEnd];
+    
+        if (startIdx === undefined || endIdx === undefined) {
+            console.warn(`Invalid startMonth (${startMonth}) or endMonth (${endMonth}).`);
+            return 0;
+        }
+    
+        const salary = parseFloat(monthlySalary);
+        if (isNaN(salary) || salary <= 0) {
+            console.warn(`Invalid monthly salary for calculation: ${monthlySalary}`);
+            return 0;
+        }
+    
+        const totalMonths = startIdx <= endIdx
+            ? endIdx - startIdx + 1
+            : 12 - startIdx + endIdx + 1;
+    
+        return totalMonths * salary;
     };
+    
+
 
     const handleEdit = (id) => {
         setPayrollData(payrollData.map(item =>
@@ -47,9 +81,13 @@ const DashboardApp = () => {
 
     const handleSave = (id, newSalary) => {
         setPayrollData(payrollData.map(item =>
-            item.id === id ? { ...item, monthlySalary: Number(newSalary), isEditing: false } : item
+            item.id === id
+                ? { ...item, monthlySalary: parseFloat(newSalary), isEditing: false }
+                : item
         ));
     };
+
+
 
     const handleCancel = (id) => {
         setPayrollData(payrollData.map(item =>
@@ -58,7 +96,6 @@ const DashboardApp = () => {
     };
 
     useEffect(() => {
-        // Calculate monthly data
         const monthlyCalculations = Array(12).fill(0).map((_, monthIndex) => {
             const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][monthIndex];
             const activeRoles = payrollData.filter(role => {
@@ -70,28 +107,26 @@ const DashboardApp = () => {
             const payroll = activeRoles.reduce((sum, role) => sum + role.monthlySalary, 0);
             const tools = activeRoles.length * 200;
             const infrastructure = activeRoles.length * 900;
-            const headcount = activeRoles.length;
             const totalCost = payroll + tools + infrastructure;
 
-            return { month, payroll, tools, infrastructure, headcount, totalCost };
+            return { month, payroll, tools, infrastructure, headcount: activeRoles.length, totalCost };
         });
 
         setMonthlyData(monthlyCalculations);
 
-        // Calculate other metrics
         const totalCost = monthlyCalculations.reduce((sum, month) => sum + month.totalCost, 0);
-        const totalPayroll = monthlyCalculations.reduce((sum, month) => sum + month.payroll, 0);
-        const avgMonthlyPayroll = totalPayroll / 12;
-        const highest = payrollData.reduce((max, current) =>
-            current.monthlySalary > max.salary ? { role: current.role, salary: current.monthlySalary } : max,
-            { role: '', salary: 0 }
-        );
+        setTotalAnnualCost(totalCost); // Ensure this updates with new payrollData
 
-        setTotalAnnualCost(totalCost);
-        setTotalAnnualPayroll(totalPayroll);
-        setAverageMonthlyPayroll(avgMonthlyPayroll);
-        setHighestPaidRole(highest);
-    }, [payrollData]);
+
+        console.log("Payroll Data Updated:", payrollData);
+        console.log("Recalculating Total Annual Cost...");
+    }, [payrollData]); // Add payrollData as a dependency
+
+
+
+    // Test case
+    console.log(calculateAnnualCost('Jan', 'Feb', 3000)); // Expected output: 6000
+
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -99,7 +134,7 @@ const DashboardApp = () => {
 
                 <Card className="mb-8">
                     <CardHeader>
-                        <CardTitle>Finance Dashboard 2026</CardTitle>
+                        <CardTitle>Finance Dashboard 2025</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -169,7 +204,7 @@ const DashboardApp = () => {
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Monthly Salary</th>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Start Date</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">2026 Cost</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">2025 Cost</th>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                                         </tr>
                                     </thead>
@@ -191,6 +226,7 @@ const DashboardApp = () => {
                                                                         }
                                                                     }}
                                                                 />
+
                                                                 <button
                                                                     onClick={() => handleSave(item.id, document.querySelector(`input[type="number"]`).value)}
                                                                     className="p-1 text-green-600 hover:text-green-700"
@@ -217,7 +253,7 @@ const DashboardApp = () => {
                                                         )}
                                                     </div>
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap">{item.startMonth} 2026</td>
+                                                <td className="px-6 py-4 whitespace-nowrap">{item.startMonth} 2025</td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     {formatCurrency(calculateAnnualCost(item.startMonth, item.endMonth, item.monthlySalary))}
                                                 </td>
@@ -238,7 +274,7 @@ const DashboardApp = () => {
                                     <div className="absolute h-full w-px bg-gray-200 left-32"></div>
                                     {payrollData.map((item) => (
                                         <div key={item.id} className="relative flex items-center mb-4">
-                                            <div className="w-32 font-medium text-gray-600">{item.startMonth} 2026</div>
+                                            <div className="w-32 font-medium text-gray-600">{item.startMonth} 2025</div>
                                             <div className="w-4 h-4 rounded-full bg-blue-500 -ml-2"></div>
                                             <div className="ml-4 flex-1">
                                                 <div className="font-medium">{item.role}</div>
@@ -249,7 +285,7 @@ const DashboardApp = () => {
                                 </div>
                             </div>
                         </CardContent>
-                       
+
 
                     </Card>
                     <CostBreakdown />
