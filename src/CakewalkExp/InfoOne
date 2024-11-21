@@ -1,0 +1,165 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <style>
+        :root {
+            --brand-blue: #0066FF;
+            --text-gray: #4F5B76;
+            --card-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            min-height: 100vh;
+            background: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            width: 100%;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            color: var(--brand-blue);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-gray);
+            font-weight: normal;
+        }
+
+        .benefits-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .benefit-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .benefit-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1rem;
+        }
+
+        .benefit-title {
+            color: var(--brand-blue);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .benefit-description {
+            color: var(--text-gray);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--brand-blue);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 100px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            text-decoration: none;
+            margin-top: 2rem;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 102, 255, 0.2);
+        }
+
+        @media (min-width: 768px) {
+            body {
+                padding: 2rem;
+            }
+
+            .title {
+                font-size: 3rem;
+            }
+
+            .benefits-grid {
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1 class="title">Cakewalk</h1>
+        <h2 class="subtitle">Your Benefits Journey Starts Here</h2>
+    </header>
+
+    <div class="benefits-grid">
+        <div class="benefit-card">
+            <img src="/vision-icon.svg" alt="Vision Coverage" class="benefit-icon">
+            <h3 class="benefit-title">Vision Coverage</h3>
+            <p class="benefit-description">Comprehensive vision care including exams, frames, and lenses</p>
+        </div>
+
+        <div class="benefit-card">
+            <img src="/dental-icon.svg" alt="Dental Plan" class="benefit-icon">
+            <h3 class="benefit-title">Dental Plan</h3>
+            <p class="benefit-description">Full dental coverage including preventive care and major procedures</p>
+        </div>
+
+        <div class="benefit-card">
+            <img src="/disability-icon.svg" alt="Long-Term Disability" class="benefit-icon">
+            <h3 class="benefit-title">Long-Term Disability</h3>
+            <p class="benefit-description">Income protection for extended health-related absences</p>
+        </div>
+
+        <div class="benefit-card">
+            <img src="/life-icon.svg" alt="Life Insurance" class="benefit-icon">
+            <h3 class="benefit-title">Life Insurance</h3>
+            <p class="benefit-description">Financial security for you and your loved ones</p>
+        </div>
+    </div>
+
+    <button class="cta-button" onclick="location.href='#'">
+        Explore Your Benefits
+    </button>
+</body>
+</html> -->

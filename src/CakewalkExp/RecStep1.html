@@ -1,0 +1,404 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <style>
+        :root {
+            --brand-blue: #0066FF;
+            --light-blue: rgba(0, 102, 255, 0.1);
+            --success-green: #10B981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 102, 255, 0.1);
+            padding: 2rem;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: var(--brand-blue);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 1rem;
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.3);
+        }
+
+        .logo svg {
+            width: 50px;
+            height: 50px;
+            fill: white;
+        }
+
+        .title {
+            font-size: 1.8rem;
+            color: var(--brand-blue);
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .progress-container {
+            margin-bottom: 2rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e1e1e1;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 50%;  /* 4/8 steps completed */
+            height: 100%;
+            background: var(--brand-blue);
+            border-radius: 3px;
+            animation: progressFill 1s ease-out;
+        }
+
+        .filters-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .filter-card {
+            background: #fff;
+            border-radius: 15px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .filter-card:nth-child(1) { animation-delay: 0.2s; }
+        .filter-card:nth-child(2) { animation-delay: 0.4s; }
+        .filter-card:nth-child(3) { animation-delay: 0.6s; }
+
+        .filter-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 102, 255, 0.15);
+            border-color: var(--brand-blue);
+        }
+
+        .filter-card.selected {
+            background: var(--light-blue);
+            border-color: var(--brand-blue);
+        }
+
+        .filter-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            padding: 1rem;
+            background: var(--light-blue);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .filter-card:hover .filter-icon,
+        .filter-card.selected .filter-icon {
+            background: var(--brand-blue);
+            color: white;
+        }
+
+        .filter-title {
+            font-size: 1.25rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .filter-description {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .recommendations {
+            margin-top: 2rem;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out 0.8s forwards;
+        }
+
+        .recommendation-card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .recommendation-card:hover {
+            background: var(--light-blue);
+            transform: translateX(5px);
+        }
+
+        .recommendation-icon {
+            background: white;
+            padding: 0.75rem;
+            border-radius: 10px;
+            color: var(--brand-blue);
+        }
+
+        .recommendation-content {
+            flex: 1;
+        }
+
+        .recommendation-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.25rem;
+        }
+
+        .recommendation-description {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .recommendation-match {
+            background: var(--success-green);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out 1s forwards;
+        }
+
+        .button {
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .button-back {
+            background: #f1f5f9;
+            color: #666;
+            border: none;
+        }
+
+        .button-back:hover {
+            background: #e2e8f0;
+        }
+
+        .button-next {
+            background: var(--brand-blue);
+            color: white;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .button-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.3);
+        }
+
+        .button-next:after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(45deg);
+            transition: all 0.3s ease;
+        }
+
+        .button-next:hover:after {
+            transform: rotate(45deg) translate(50%, 50%);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes progressFill {
+            from {
+                width: 0;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            .title {
+                font-size: 1.5rem;
+            }
+
+            .filters-container {
+                grid-template-columns: 1fr;
+            }
+
+            .button {
+                padding: 0.8rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <svg viewBox="0 0 100 100">
+                    <path d="M50 10 C60 10, 80 20, 85 35 C90 50, 85 65, 75 75 C65 85, 35 85, 25 75 C15 65, 10 50, 15 35 C20 20, 40 10, 50 10 Z M50 25 C45 25, 35 30, 32 40 L68 40 C65 30, 55 25, 50 25" fill="white"/>
+                </svg>
+            </div>
+            <h1 class="title">Find Your Perfect Package</h1>
+            <p class="subtitle">Choose how you'd like us to recommend benefits packages</p>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-label">
+                <span>Progress</span>
+                <span>Step 4 of 8</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+        <div class="filters-container">
+            <div class="filter-card" onclick="selectFilter(this, 'industry')">
+                <div class="filter-icon">🏢</div>
+                <div class="filter-title">Industry-Based</div>
+                <div class="filter-description">Find packages tailored to your specific industry requirements and standards</div>
+            </div>
+
+            <div class="filter-card" onclick="selectFilter(this, 'size')">
+                <div class="filter-icon">👥</div>
+                <div class="filter-title">Business Size</div>
+                <div class="filter-description">Get recommendations based on your company's size and scale</div>
+            </div>
+
+            <div class="filter-card" onclick="selectFilter(this, 'popularity')">
+                <div class="filter-icon">⭐</div>
+                <div class="filter-title">Popularity</div>
+                <div class="filter-description">See what other businesses like yours are choosing</div>
+            </div>
+        </div>
+
+        <div class="recommendations" id="recommendationsContainer" style="display: none;">
+            <div class="recommendation-card">
+                <div class="recommendation-icon">📊</div>
+                <div class="recommendation-content">
+                    <div class="recommendation-title">Premium Coverage Package</div>
+                    <div class="recommendation-description">Comprehensive benefits suitable for your needs</div>
+                </div>
+                <div class="recommendation-match">98% Match</div>
+            </div>
+            <!-- More recommendation cards will be added dynamically -->
+        </div>
+
+        <div class="navigation-buttons">
+            <button class="button button-back">
+                <span style="margin-right: 0.5rem">←</span>
+                Back
+            </button>
+            <button class="button button-next">
+                Continue
+                <span style="margin-left: 0.5rem">→</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function selectFilter(element, filterType) {
+            // Remove selection from all cards
+            document.querySelectorAll('.filter-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selection to clicked card
+            element.classList.add('selected');
+            
+            // Show recommendations container
+            const recommendationsContainer = document.getElementById('recommendationsContainer');
+            recommendationsContainer.style.display = 'block';
+            
+            // You would typically fetch and display relevant recommendations here
+            // For now, we'll just log the selected filter type
+            console.log('Selected filter:', filterType);
+        }
+    </script>
+</body>
+</html> -->

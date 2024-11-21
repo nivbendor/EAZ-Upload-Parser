@@ -3,9 +3,11 @@ import XLSXProcessor from './component/XLSXProcessor';
 import { fetchDataDaily } from './component/GoogleSheetsAPI';
 import ActiveCampaignProcessor from './component/ActiveCampaignProcessor';
 import DashboardApp from './component/DashboardApp';
+import ProcessTracker from './CensusMaestro/ProcessTracker';
 
 function App() {
   const [showBudget, setShowBudget] = useState(false);
+  const [showCensusTracker, setShowCensusTracker] = useState(false);
   const [sheetData, setSheetData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -13,6 +15,7 @@ function App() {
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
     setShowBudget(searchParams.has('budget'));
+    setShowCensusTracker(searchParams.has('censustracker'));
 
     const fetchData = async () => {
       try {
@@ -35,6 +38,10 @@ function App() {
 
   if (showBudget) {
     return <DashboardApp />;
+  }
+
+  if (showCensusTracker) {
+    return <ProcessTracker />;
   }
 
   return (

@@ -1,0 +1,251 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <style>
+        :root {
+            --brand-blue: #0066FF;
+            --text-gray: #4F5B76;
+            --success-green: #10B981;
+            --card-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            min-height: 100vh;
+            background: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--brand-blue);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 2rem;
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        .success-icon svg {
+            width: 40px;
+            height: 40px;
+            fill: white;
+        }
+
+        .title {
+            font-size: 2rem;
+            color: var(--brand-blue);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out 0.2s forwards;
+        }
+
+        .message {
+            font-size: 1.125rem;
+            color: var(--text-gray);
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out 0.4s forwards;
+        }
+
+        .completion-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out 0.6s forwards;
+        }
+
+        .status-list {
+            list-style: none;
+            text-align: left;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .status-item:last-child {
+            border-bottom: none;
+        }
+
+        .status-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--success-green);
+            color: white;
+            font-size: 0.875rem;
+        }
+
+        .status-text {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--brand-blue);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 100px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            width: 100%;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out 0.8s forwards;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 102, 255, 0.2);
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            opacity: 0;
+            animation: confetti 3s ease-in infinite;
+        }
+
+        @keyframes confetti {
+            0% {
+                transform: translateY(-100%) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (min-width: 768px) {
+            body {
+                padding: 2rem;
+            }
+
+            .title {
+                font-size: 2.5rem;
+            }
+
+            .message {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="confetti-container"></div>
+    <div class="container">
+        <div class="success-icon">
+            <svg viewBox="0 0 24 24">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+            </svg>
+        </div>
+
+        <h1 class="title">Registration Complete!</h1>
+        <p class="message">Thank you for choosing Cakewalk Benefits. Your journey to better employee care starts now.</p>
+
+        <div class="completion-card">
+            <ul class="status-list">
+                <li class="status-item">
+                    <div class="status-icon">✓</div>
+                    <span class="status-text">Business registration completed</span>
+                </li>
+                <li class="status-item">
+                    <div class="status-icon">✓</div>
+                    <span class="status-text">Employee information verified</span>
+                </li>
+                <li class="status-item">
+                    <div class="status-icon">✓</div>
+                    <span class="status-text">Benefits package activated</span>
+                </li>
+                <li class="status-item">
+                    <div class="status-icon">✓</div>
+                    <span class="status-text">Welcome materials prepared</span>
+                </li>
+            </ul>
+        </div>
+
+        <button class="cta-button" onclick="location.href='dashboard.html'">
+            Go to Your Dashboard
+        </button>
+    </div>
+
+    <script>
+        function createConfetti() {
+            const colors = ['#0066FF', '#FFD700', '#FF6B6B', '#4CAF50', '#9C27B0'];
+            const container = document.getElementById('confetti-container');
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                container.appendChild(confetti);
+            }
+        }
+
+        // Initialize celebration effect
+        createConfetti();
+    </script>
+</body>
+</html> -->

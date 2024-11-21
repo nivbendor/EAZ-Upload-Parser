@@ -1,0 +1,593 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <style>
+        :root {
+            --brand-blue: #0066FF;
+            --light-blue: rgba(0, 102, 255, 0.1);
+            --success-green: #10B981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 102, 255, 0.1);
+            padding: 2rem;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: var(--brand-blue);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 1rem;
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.3);
+        }
+
+        .logo svg {
+            width: 50px;
+            height: 50px;
+            fill: white;
+        }
+
+        .title {
+            font-size: 1.8rem;
+            color: var(--brand-blue);
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .progress-container {
+            margin-bottom: 2rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e1e1e1;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 62.5%;  /* 5/8 steps completed */
+            height: 100%;
+            background: var(--brand-blue);
+            border-radius: 3px;
+            animation: progressFill 1s ease-out;
+        }
+
+        .calculator-container {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out 0.2s forwards;
+        }
+
+        .benefits-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .benefit-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .benefit-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 102, 255, 0.1);
+        }
+
+        .benefit-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .benefit-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--brand-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .benefit-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .simulator-button {
+            background: var(--brand-blue);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            width: 100%;
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .simulator-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.3);
+        }
+
+        .simulator-button:after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(45deg);
+            transition: all 0.3s ease;
+        }
+
+        .simulator-button:hover:after {
+            transform: rotate(45deg) translate(50%, 50%);
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .close-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.3s ease;
+        }
+
+        .close-button:hover {
+            color: var(--brand-blue);
+        }
+
+        .copy-link {
+            display: flex;
+            align-items: center;
+            background: #f1f5f9;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .copy-link input {
+            flex: 1;
+            border: none;
+            background: none;
+            padding: 0.5rem;
+            color: #333;
+        }
+
+        .copy-button {
+            background: var(--brand-blue);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .copy-button:hover {
+            background: #0052cc;
+        }
+
+        .copy-button.copied {
+            background: var(--success-green);
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out 0.4s forwards;
+        }
+
+        .button {
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .button-back {
+            background: #f1f5f9;
+            color: #666;
+            border: none;
+        }
+
+        .button-back:hover {
+            background: #e2e8f0;
+        }
+
+        .button-next {
+            background: var(--brand-blue);
+            color: white;
+            border: none;
+        }
+
+        .button-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.3);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes progressFill {
+            from {
+                width: 0;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            .title {
+                font-size: 1.5rem;
+            }
+
+            .calculator-container {
+                padding: 1.5rem;
+            }
+
+            .benefits-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .button {
+                padding: 0.8rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <svg viewBox="0 0 100 100">
+                    <path d="M50 10 C60 10, 80 20, 85 35 C90 50, 85 65, 75 75 C65 85, 35 85, 25 75 C15 65, 10 50, 15 35 C20 20, 40 10, 50 10 Z M50 25 C45 25, 35 30, 32 40 L68 40 C65 30, 55 25, 50 25" fill="white"/>
+                </svg>
+            </div>
+            <h1 class="title">Calculate Your Benefits</h1>
+            <p class="subtitle">See how much you can save with our benefits package</p>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-label">
+                <span>Progress</span>
+                <span>Step 5 of 8</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+        <div class="calculator-container">
+            <div class="benefits-summary">
+                <div class="benefit-item">
+                    <span class="benefit-icon">💊</span>
+                    <div class="benefit-value">$2,400</div>
+                    <div class="benefit-label">Annual Health Savings</div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">🦷</span>
+                    <div class="benefit-value">$800</div>
+                    <div class="benefit-label">Dental Coverage</div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">👁️</span>
+                    <div class="benefit-value">$400</div>
+                    <div class="benefit-label">Vision Benefits</div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">🛡️</span>
+                    <div class="benefit-value">$1,200</div>
+                    <div class="benefit-label">Long-Term Disability</div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">❤️</span>
+                    <div class="benefit-value">$500,000</div>
+                    <div class="benefit-label">Life Insurance</div>
+                </div>
+                <div class="benefit-item total-savings">
+                    <span class="benefit-icon">💰</span>
+                    <div class="benefit-value">$4,800</div>
+                    <div class="benefit-label">Total Annual Savings</div>
+                </div>
+            </div>
+
+            <button class="simulator-button" onclick="openSimulator()">
+                Open Interactive Simulator
+                <span style="margin-left: 0.5rem">↗️</span>
+            </button>
+        </div>
+
+        <div class="navigation-buttons">
+            <button class="button button-back">
+                <span style="margin-right: 0.5rem">←</span>
+                Back
+            </button>
+            <button class="button button-next">
+                Continue
+                <span style="margin-left: 0.5rem">→</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="modal" id="simulatorModal">
+        <div class="modal-content">
+            <button class="close-button" onclick="closeSimulator()">×</button>
+            <div class="modal-header">
+                <div class="modal-icon">🔢</div>
+                <h2>Interactive Benefits Simulator</h2>
+            </div>
+
+            <div class="modal-tabs">
+                <button class="tab-button active" onclick="switchTab('basic')">Basic</button>
+                <button class="tab-button" onclick="switchTab('advanced')">Advanced</button>
+            </div>
+
+            <div class="tab-content" id="basicTab">
+                <div class="quick-calculator">
+                    <div class="calc-input-group">
+                        <label>Number of Employees</label>
+                        <input type="number" id="employeeCount" min="1" value="1" onchange="updateCalculations()">
+                    </div>
+                    <div class="calc-input-group">
+                        <label>Coverage Level</label>
+                        <select id="coverageLevel" onchange="updateCalculations()">
+                            <option value="basic">Basic</option>
+                            <option value="standard">Standard</option>
+                            <option value="premium">Premium</option>
+                        </select>
+                    </div>
+                    <div class="calculation-result">
+                        <div class="result-label">Estimated Monthly Cost</div>
+                        <div class="result-value" id="monthlyEstimate">$0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content hidden" id="advancedTab">
+                <p>Access our comprehensive simulator for detailed calculations:</p>
+                <div class="copy-link">
+                    <input type="text" value="nivbendor.github.io/john/" id="simulatorLink" readonly>
+                    <button class="copy-button" onclick="copyLink()">
+                        <span class="button-text">Copy Link</span>
+                        <span class="button-icon">📋</span>
+                    </button>
+                </div>
+                <div class="simulator-features">
+                    <div class="feature-item">
+                        <span class="feature-icon">📊</span>
+                        <div class="feature-text">Detailed Cost Analysis</div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">💡</span>
+                        <div class="feature-text">Custom Scenarios</div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">📈</span>
+                        <div class="feature-text">ROI Calculator</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="help-button" onclick="toggleHelp()">
+                    <span class="help-icon">❓</span>
+                    Need Help?
+                </button>
+            </div>
+        </div>
+
+        <div class="help-panel" id="helpPanel">
+            <div class="help-content">
+                <h3>How to Use the Simulator</h3>
+                <ul class="help-list">
+                    <li>👥 Enter your employee count</li>
+                    <li>📋 Select coverage level</li>
+                    <li>💰 View instant cost estimates</li>
+                    <li>🔗 Access advanced simulator for detailed analysis</li>
+                </ul>
+                <button class="close-help" onclick="toggleHelp()">Got it!</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openSimulator() {
+            document.getElementById('simulatorModal').classList.add('active');
+        }
+
+        function closeSimulator() {
+            document.getElementById('simulatorModal').classList.remove('active');
+        }
+
+        // Tab switching functionality
+        function switchTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-button');
+            const contents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.add('hidden'));
+            
+            document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
+            document.getElementById(`${tabName}Tab`).classList.remove('hidden');
+        }
+
+        // Help panel toggle
+        function toggleHelp() {
+            const helpPanel = document.getElementById('helpPanel');
+            helpPanel.classList.toggle('active');
+        }
+
+        // Copy link functionality
+        function copyLink() {
+            const link = document.getElementById('simulatorLink');
+            link.select();
+            document.execCommand('copy');
+            
+            const copyButton = document.querySelector('.copy-button');
+            const buttonText = copyButton.querySelector('.button-text');
+            buttonText.textContent = 'Copied!';
+            copyButton.classList.add('copied');
+            
+            setTimeout(() => {
+                buttonText.textContent = 'Copy Link';
+                copyButton.classList.remove('copied');
+            }, 2000);
+        }
+
+        // Calculator functionality
+        function updateCalculations() {
+            const employeeCount = parseInt(document.getElementById('employeeCount').value) || 0;
+            const coverageLevel = document.getElementById('coverageLevel').value;
+            
+            let baseRate;
+            switch(coverageLevel) {
+                case 'premium':
+                    baseRate = 300;
+                    break;
+                case 'standard':
+                    baseRate = 200;
+                    break;
+                default:
+                    baseRate = 100;
+            }
+            
+            const monthlyEstimate = employeeCount * baseRate;
+            document.getElementById('monthlyEstimate').textContent = `${monthlyEstimate.toLocaleString()}`;
+            
+            // Animate the change
+            const resultElement = document.querySelector('.calculation-result');
+            resultElement.classList.add('updated');
+            setTimeout(() => resultElement.classList.remove('updated'), 300);
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('simulatorModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeSimulator();
+            }
+        });
+    </script>
+</body>
+</html> -->

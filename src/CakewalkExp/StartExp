@@ -1,0 +1,285 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <style>
+        :root {
+            --brand-blue: #0066FF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: relative;
+        }
+
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: splashFadeOut 0.5s ease-in-out 2s forwards;
+        }
+
+        .logo-container {
+            width: 150px;
+            height: 150px;
+            background: var(--brand-blue);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: logoPopIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .logo-container svg {
+            width: 80%;
+            height: 80%;
+            fill: white;
+        }
+
+        .main-content {
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            opacity: 0;
+            animation: contentFadeIn 1s ease-in-out 2.5s forwards;
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--brand-blue);
+            margin-bottom: 1rem;
+            transform: translateY(-20px);
+            animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) 2.5s forwards;
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            color: #4a5568;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(-15px);
+            animation: slideIn 0.8s ease 2.8s forwards;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 0 auto 2rem;
+            padding: 1rem;
+        }
+
+        .benefit-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 102, 255, 0.1);
+            opacity: 0;
+            transform: scale(0.9) rotate(-2deg);
+            animation: cardPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px) rotate(0deg);
+            box-shadow: 0 12px 20px rgba(0, 102, 255, 0.15);
+        }
+
+        .benefit-card:nth-child(1) { animation-delay: 3.0s; }
+        .benefit-card:nth-child(2) { animation-delay: 3.2s; }
+        .benefit-card:nth-child(3) { animation-delay: 3.4s; }
+        .benefit-card:nth-child(4) { animation-delay: 3.6s; }
+
+        .benefit-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            animation: iconWiggle 2s ease-in-out infinite;
+        }
+
+        .benefit-title {
+            font-size: 1.25rem;
+            color: var(--brand-blue);
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .benefit-description {
+            color: #4a5568;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .cta-button {
+            display: inline-block;
+            margin: 1rem 0 2rem;
+            padding: 1rem 2rem;
+            background: var(--brand-blue);
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) 3.8s forwards;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 102, 255, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .benefits-grid {
+                grid-template-columns: 1fr;
+                padding: 0.5rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .tagline {
+                font-size: 1.25rem;
+            }
+        }
+
+        @keyframes splashFadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        @keyframes logoPopIn {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes contentFadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) translateY(-20px);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.1) translateY(0);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes cardPop {
+            to {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        @keyframes iconWiggle {
+            0%, 100% {
+                transform: rotate(-5deg);
+            }
+            50% {
+                transform: rotate(5deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="splash-screen">
+        <div class="logo-container">
+            <svg viewBox="0 0 100 100">
+                <path d="M50 10 C60 10, 80 20, 85 35 C90 50, 85 65, 75 75 C65 85, 35 85, 25 75 C15 65, 10 50, 15 35 C20 20, 40 10, 50 10 Z M50 25 C45 25, 35 30, 32 40 L68 40 C65 30, 55 25, 50 25" fill="white"/>
+            </svg>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="container">
+            <div class="logo">Cakewalk</div>
+            <div class="tagline">Your Benefits Journey Starts Here</div>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">👁️</div>
+                    <div class="benefit-title">Vision Coverage</div>
+                    <div class="benefit-description">Comprehensive vision care including exams, frames, and lenses</div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🦷</div>
+                    <div class="benefit-title">Dental Plan</div>
+                    <div class="benefit-description">Full dental coverage including preventive care and major procedures</div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🛡️</div>
+                    <div class="benefit-title">Long-Term Disability</div>
+                    <div class="benefit-description">Income protection for extended health-related absences</div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">❤️</div>
+                    <div class="benefit-title">Life Insurance</div>
+                    <div class="benefit-description">Financial security for you and your loved ones</div>
+                </div>
+            </div>
+            
+            <a href="https://v0.dev/chat/uWurmqIfLwm?b=b_QRhjimrx3bY" class="cta-button" target="_blank" rel="noopener noreferrer">Explore Your Benefits</a>
+        </div>
+    </div>
+</body>
+</html> -->

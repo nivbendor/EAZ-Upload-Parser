@@ -1,0 +1,344 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <style>
+        :root {
+            --brand-blue: #0066FF;
+            --light-blue: rgba(0, 102, 255, 0.1);
+            --success-green: #10B981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 102, 255, 0.1);
+            padding: 2rem;
+            animation: slideUp 0.5s ease-out;
+            text-align: center;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: var(--brand-blue);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 1rem;
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.3);
+            animation: logoPulse 2s infinite;
+        }
+
+        .logo svg {
+            width: 50px;
+            height: 50px;
+            fill: white;
+        }
+
+        .progress-container {
+            margin: 2rem auto;
+            max-width: 600px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e1e1e1;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 87.5%;  /* 7/8 steps completed */
+            height: 100%;
+            background: var(--brand-blue);
+            border-radius: 3px;
+            animation: progressFill 1s ease-out;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin: 2rem 0;
+            animation: bounceIn 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .title {
+            font-size: 2rem;
+            color: var(--brand-blue);
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out 0.3s forwards;
+        }
+
+        .message {
+            font-size: 1.25rem;
+            color: #333;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out 0.6s forwards;
+        }
+
+        .confirmation-details {
+            background: var(--light-blue);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem auto;
+            max-width: 600px;
+            text-align: left;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out 0.9s forwards;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .detail-item:hover {
+            transform: translateX(5px);
+        }
+
+        .detail-icon {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: var(--brand-blue);
+        }
+
+        .detail-text {
+            color: #333;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--brand-blue);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out 1.2s forwards;
+            margin-top: 1rem;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.3);
+        }
+
+        @keyframes logoPulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(0, 102, 255, 0.3);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 4px 20px rgba(0, 102, 255, 0.5);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(0, 102, 255, 0.3);
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes progressFill {
+            from {
+                width: 0;
+            }
+        }
+
+        .celebration {
+            position: absolute;
+            pointer-events: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            opacity: 0;
+            animation: confetti 3s ease-in infinite;
+        }
+
+        @keyframes confetti {
+            0% {
+                transform: translateY(-100%) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            .title {
+                font-size: 1.5rem;
+            }
+
+            .message {
+                font-size: 1.1rem;
+            }
+
+            .confirmation-details {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="celebration" id="celebration"></div>
+    
+    <div class="container">
+        <div class="logo">
+            <svg viewBox="0 0 100 100">
+                <path d="M50 10 C60 10, 80 20, 85 35 C90 50, 85 65, 75 75 C65 85, 35 85, 25 75 C15 65, 10 50, 15 35 C20 20, 40 10, 50 10 Z M50 25 C45 25, 35 30, 32 40 L68 40 C65 30, 55 25, 50 25" fill="white"/>
+            </svg>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-label">
+                <span>Progress</span>
+                <span>Step 7 of 8</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+        <div class="success-icon">🎉</div>
+        
+        <h1 class="title">Registration Confirmed!</h1>
+        <p class="message">You're On The Right Way Taking Care Of Yourself and Your Employees</p>
+
+        <div class="confirmation-details">
+            <div class="detail-item">
+                <span class="detail-icon">✅</span>
+                <span class="detail-text">Business information verified</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-icon">📋</span>
+                <span class="detail-text">Account setup complete</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-icon">👥</span>
+                <span class="detail-text">Ready for employee registration</span>
+            </div>
+        </div>
+
+        <button class="button" onclick="proceedToNextStep()">
+            Continue to Employee Registration
+            <span style="margin-left: 0.5rem">→</span>
+        </button>
+    </div>
+
+    <script>
+        // Create confetti celebration effect
+        function createConfetti() {
+            const colors = ['#0066FF', '#FFD700', '#FF6B6B', '#4CAF50', '#9C27B0'];
+            const celebration = document.getElementById('celebration');
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                celebration.appendChild(confetti);
+            }
+        }
+
+        // Function to proceed to next step
+        function proceedToNextStep() {
+            // Add navigation logic here
+            console.log('Proceeding to Employee Registration...');
+        }
+
+        // Initialize celebration
+        createConfetti();
+    </script>
+</body>
+</html> -->

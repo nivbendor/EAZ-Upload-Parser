@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        :root {
+            --brand-blue: #0066FF;
+            --light-blue: rgba(0, 102, 255, 0.1);
+            --success-green: #10B981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 102, 255, 0.1);
+            padding: 2rem;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: var(--brand-blue);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 1rem;
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.3);
+        }
+
+        .logo svg {
+            width: 50px;
+            height: 50px;
+            fill: white;
+        }
+
+        .title {
+            font-size: 1.8rem;
+            color: var(--brand-blue);
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .progress-container {
+            margin-bottom: 2rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e1e1e1;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 75%;  /* 6/8 steps completed */
+            height: 100%;
+            background: var(--brand-blue);
+            border-radius: 3px;
+            animation: progressFill 1s ease-out;
+        }
+
+        .steps-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            gap: 1rem;
+        }
+
+        .step-button {
+            flex: 1;
+            max-width: 200px;
+            padding: 1rem;
+            background: #f8fafc;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+            position: relative;
+        }
+
+        .step-button.active {
+            background: var(--light-blue);
+            border-color: var(--brand-blue);
+            opacity: 1;
+        }
+
+        .step-button:not(.active):hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: 24px;
+            height: 24px;
+            background: var(--brand-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .step-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.1);
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out forwards;
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: var(--brand-blue);
+            border-radius: 2px;
+            display: inline-block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.2s; }
+        .form-group:nth-child(2) { animation-delay: 0.4s; }
+        .form-group:nth-child(3) { animation-delay: 0.6s; }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: #f8fafc;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .input-wrapper:hover {
+            background: var(--light-blue);
+        }
+
+        .input-wrapper.focused {
+            background: var(--light-blue);
+            box-shadow: 0 0 0 2px var(--brand-blue);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            color: #666;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .input {
+            width: 100%;
+            padding: 0.8rem 1rem 0.8rem 3rem;
+            border: none;
+            background: transparent;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .input:focus {
+            outline: none;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+            padding-left: 3rem;
+        }
+
+        .input-wrapper.error {
+            background: rgba(220, 53, 69, 0.1);
+            box-shadow: 0 0 0 2px #dc3545;
+        }
+
+        .input-wrapper.error + .error-message {
+            display: block;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out 0.8s forwards;
+        }
+
+        .button {
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .button-back {
+            background: #f1f5f9;
+            color: #666;
+            border: none;
+        }
+
+        .button-back:hover {
+            background: #e2e8f0;
+        }
+
+        .button-next {
+            background: var(--brand-blue);
+            color: white;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .button-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.3);
+        }
+
+        .button-next:after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(45deg);
+            transition: all 0.3s ease;
+        }
+
+        .button-next:hover:after {
+            transform: rotate(45deg) translate(50%, 50%);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes progressFill {
+            from {
+                width: 0;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            .title {
+                font-size: 1.5rem;
+            }
+
+            .input {
+                padding: 0.7rem 0.7rem 0.7rem 2.5rem;
+            }
+
+            .input-icon {
+                left: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <svg viewBox="0 0 100 100">
+                    <path d="M50 10 C60 10, 80 20, 85 35 C90 50, 85 65, 75 75 C65 85, 35 85, 25 75 C15 65, 10 50, 15 35 C20 20, 40 10, 50 10 Z M50 25 C45 25, 35 30, 32 40 L68 40 C65 30, 55 25, 50 25" fill="white"/>
+                </svg>
+            </div>
+            <h1 class="title">Business Registration</h1>
+            <p class="subtitle">Complete your registration to get started</p>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-label">
+                <span>Progress</span>
+                <span>Step 6 of 8</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+        <div class="steps-indicator">
+            <button type="button" class="step-button active" onclick="switchSection('personal')">
+                <div class="step-number">1</div>
+                <div class="step-icon">👤</div>
+                <div class="step-text">Personal Information</div>
+            </button>
+            <button type="button" class="step-button" onclick="switchSection('business')">
+                <div class="step-number">2</div>
+                <div class="step-icon">🏢</div>
+                <div class="step-text">Business Information</div>
+            </button>
+        </div>
+
+        <form id="registrationForm" onsubmit="return validateForm(event)">
+            <div class="form-section active" id="personalSection">
+                <h2 class="section-title">Personal Information</h2>
+                
+                <div class="form-group">
+                    <label class="label" for="firstName">First Name</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">👤</span>
+                        <input 
+                            type="text" 
+                            id="firstName" 
+                            class="input" 
+                            required
+                            placeholder="Enter your first name"
+                        >
+                    </div>
+                    <div class="error-message">Please enter your first name</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="label" for="lastName">Last Name</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">👤</span>
+                        <input 
+                            type="text" 
+                            id="lastName" 
+                            class="input" 
+                            required
+                            placeholder="Enter your last name"
+                        >
+                    </div>
+                    <div class="error-message">Please enter your last name</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="label" for="email">Email Address</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">📧</span>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            class="input" 
+                            required
+                            placeholder="Enter your email address"
+                        >
+                    </div>
+                    <div class="error-message">Please enter a valid email address</div>
+                </div>
+            </div>
+
+            <div class="form-section" id="businessSection">
+                <h2 class="section-title">Business Information</h2>
+                
+                <div class="form-group">
+                    <label class="label" for="businessName">Legal Business Name</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🏢</span>
+                        <input 
+                            type="text" 
+                            id="businessName" 
+                            class="input" 
+                            required
+                            placeholder="Enter legal business name"
+                        >
+                    </div>
+                    <div class="error-message">Please enter your business name</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="label" for="ein">EIN (XX-XXXXXXX)</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔢</span>
+                        <input 
+                            type="text" 
+                            id="ein" 
+                            class="input" 
+                            required
+                            placeholder="XX-XXXXXXX"
+                            pattern="\d{2}-\d{7}"
+                        >
+                    </div>
+                    <div class="error-message">Please enter a valid EIN (XX-XXXXXXX)</div>
+                </div>
+            </div>
+
+            <div class="navigation-buttons" id="personalButtons">
+                <button type="button" class="button button-back">
+                    <span style="margin-right: 0.5rem">←</span>
+                    Back
+                </button>
+                <button type="button" class="button button-next" onclick="goToBusinessSection()">
+                    Next: Business Info
+                    <span style="margin-left: 0.5rem">→</span>
+                </button>
+            </div>
+
+            <div class="navigation-buttons" id="businessButtons" style="display: none;">
+                <button type="button" class="button button-back" onclick="goToPersonalSection()">
+                    <span style="margin-right: 0.5rem">←</span>
+                    Back to Personal Info
+                </button>
+                <button type="submit" class="button button-next">
+                    Complete Registration
+                    <span style="margin-left: 0.5rem">→</span>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Add focus effects
+        document.querySelectorAll('.input').forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('focused');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.classList.remove('focused');
+            });
+        });
+
+        // Format EIN input
+        const einInput = document.getElementById('ein');
+        einInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.slice(0,2) + "-" + value.slice(2);
+            }
+            e.target.value = value;
+        });
+
+        function switchSection(section) {
+            const personalSection = document.getElementById('personalSection');
+            const businessSection = document.getElementById('businessSection');
+            const personalButtons = document.getElementById('personalButtons');
+            const businessButtons = document.getElementById('businessButtons');
+            const buttons = document.querySelectorAll('.step-button');
+
+            buttons.forEach(button => button.classList.remove('active'));
+
+            if (section === 'personal') {
+                personalSection.classList.add('active');
+                businessSection.classList.remove('active');
+                personalButtons.style.display = 'flex';
+                businessButtons.style.display = 'none';
+                buttons[0].classList.add('active');
+            } else {
+                personalSection.classList.remove('active');
+                businessSection.classList.add('active');
+                personalButtons.style.display = 'none';
+                businessButtons.style.display = 'flex';
+                buttons[1].classList.add('active');
+            }
+        }
+
+        function goToBusinessSection() {
+            // Validate personal information first
+            const personalFields = ['firstName', 'lastName', 'email'];
+            let isValid = true;
+
+            personalFields.forEach(field => {
+                const input = document.getElementById(field);
+                const wrapper = input.parentElement;
+
+                if (!input.value || (field === 'email' && !isValidEmail(input.value))) {
+                    wrapper.classList.add('error');
+                    isValid = false;
+                } else {
+                    wrapper.classList.remove('error');
+                }
+            });
+
+            if (isValid) {
+                switchSection('business');
+            }
+        }
+
+        function goToPersonalSection() {
+            switchSection('personal');
+        }
+
+        function validateForm(event) {
+            event.preventDefault();
+            
+            const fields = ['firstName', 'lastName', 'email', 'businessName', 'ein'];
+            let isValid = true;
+
+            fields.forEach(field => {
+                const input = document.getElementById(field);
+                const wrapper = input.parentElement;
+
+                if (!input.value || (field === 'email' && !isValidEmail(input.value)) || 
+                    (field === 'ein' && !isValidEIN(input.value))) {
+                    wrapper.classList.add('error');
+                    isValid = false;
+                } else {
+                    wrapper.classList.remove('error');
+                }
+            });
+
+            if (isValid) {
+                console.log('Form submitted:', {
+                    firstName: document.getElementById('firstName').value,
+                    lastName: document.getElementById('lastName').value,
+                    email: document.getElementById('email').value,
+                    businessName: document.getElementById('businessName').value,
+                    ein: document.getElementById('ein').value
+                });
+                // Here you would typically navigate to the next step
+                // window.location.href = 'next-step.html';
+            }
+
+            return false;
+        }
+
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        function isValidEIN(ein) {
+            return /^\d{2}-\d{7}$/.test(ein);
+        }
+    </script>
+</body>
+</html>
