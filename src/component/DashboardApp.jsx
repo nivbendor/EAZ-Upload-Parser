@@ -37,7 +37,7 @@ const DashboardApp = () => {
             'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
             'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
         };
-    
+
         const normalizeMonth = (month) => {
             const monthAbbreviations = {
                 January: 'Jan', February: 'Feb', March: 'Mar', April: 'Apr',
@@ -46,31 +46,41 @@ const DashboardApp = () => {
             };
             return monthAbbreviations[month] || month;
         };
-    
+
+        // Normalize start and end months
         const normalizedStart = normalizeMonth(startMonth);
         const normalizedEnd = normalizeMonth(endMonth);
-    
+
+        // Map normalized months to indices
         const startIdx = monthMap[normalizedStart];
         const endIdx = monthMap[normalizedEnd];
-    
+
+        // Validate month indices
         if (startIdx === undefined || endIdx === undefined) {
-            console.warn(`Invalid startMonth (${startMonth}) or endMonth (${endMonth}).`);
+            console.warn(`Invalid startMonth (${startMonth}) or endMonth (${endMonth}) after normalization. Start: ${normalizedStart}, End: ${normalizedEnd}`);
             return 0;
         }
-    
+
+        // Validate and parse salary
         const salary = parseFloat(monthlySalary);
         if (isNaN(salary) || salary <= 0) {
             console.warn(`Invalid monthly salary for calculation: ${monthlySalary}`);
             return 0;
         }
-    
+
+        // Calculate total months (handle year boundary)
         const totalMonths = startIdx <= endIdx
-            ? endIdx - startIdx + 1
-            : 12 - startIdx + endIdx + 1;
-    
+            ? endIdx - startIdx + 1  // Same year
+            : 12 - startIdx + endIdx + 1; // Across years
+
+        // Debugging logs
+        console.log(`Calculating Annual Cost: Start (${startMonth} -> ${normalizedStart}, Index: ${startIdx}), End (${endMonth} -> ${normalizedEnd}, Index: ${endIdx}), Total Months: ${totalMonths}, Monthly Salary: ${salary}`);
+
+        // Return total annual cost
         return totalMonths * salary;
     };
-    
+
+
 
 
     const handleEdit = (id) => {
@@ -80,12 +90,17 @@ const DashboardApp = () => {
     };
 
     const handleSave = (id, newSalary) => {
-        setPayrollData(payrollData.map(item =>
+        const updatedPayrollData = payrollData.map(item =>
             item.id === id
                 ? { ...item, monthlySalary: parseFloat(newSalary), isEditing: false }
                 : item
-        ));
+        );
+
+        console.log("Updated Payroll Data:", updatedPayrollData);
+        setPayrollData(updatedPayrollData);
     };
+
+
 
 
 
@@ -96,15 +111,28 @@ const DashboardApp = () => {
     };
 
     useEffect(() => {
+        const cachedCosts = {}; // Cache for already-calculated costs
+
         const monthlyCalculations = Array(12).fill(0).map((_, monthIndex) => {
             const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][monthIndex];
+
             const activeRoles = payrollData.filter(role => {
                 const startIdx = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].indexOf(role.startMonth);
                 const endIdx = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].indexOf(role.endMonth);
+
+                if (startIdx === -1 || endIdx === -1) return false;
+
                 return monthIndex >= startIdx && monthIndex <= endIdx;
             });
 
-            const payroll = activeRoles.reduce((sum, role) => sum + role.monthlySalary, 0);
+            const payroll = activeRoles.reduce((sum, role) => {
+                // Use cached value if available
+                if (!cachedCosts[role.id]) {
+                    cachedCosts[role.id] = calculateAnnualCost(role.startMonth, role.endMonth, role.monthlySalary);
+                }
+                return sum + role.monthlySalary;
+            }, 0);
+
             const tools = activeRoles.length * 200;
             const infrastructure = activeRoles.length * 900;
             const totalCost = payroll + tools + infrastructure;
@@ -115,12 +143,9 @@ const DashboardApp = () => {
         setMonthlyData(monthlyCalculations);
 
         const totalCost = monthlyCalculations.reduce((sum, month) => sum + month.totalCost, 0);
-        setTotalAnnualCost(totalCost); // Ensure this updates with new payrollData
+        setTotalAnnualCost(totalCost);
+    }, [payrollData]);
 
-
-        console.log("Payroll Data Updated:", payrollData);
-        console.log("Recalculating Total Annual Cost...");
-    }, [payrollData]); // Add payrollData as a dependency
 
 
 
