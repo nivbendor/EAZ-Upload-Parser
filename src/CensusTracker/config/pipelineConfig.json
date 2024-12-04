@@ -1,0 +1,38 @@
+[
+    {
+        "step": "slackNotifications",
+        "service": "DataProcessingService",
+        "args": {
+            "message": "Starting Data Processing"
+        }
+    },
+    {
+        "step": "importEmpSub",
+        "service": "DataProcessingService",
+        "args": {
+            "filePath": "/uploads/emp-sub.xlsx"
+        }
+    },
+    {
+        "step": "duplicationCheck",
+        "service": "DataProcessingService",
+        "args": {
+            "type": "email"
+        }
+    },
+    {
+        "step": "clientShellBuild",
+        "service": "ClientShellService",
+        "args": {
+            "empData": [],
+            "busData": []
+        }
+    },
+    {
+        "step": "generateExport",
+        "service": "ClientShellService",
+        "args": {
+            "data": {}
+        }
+    }
+]

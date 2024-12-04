@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "lib": [
       "dom",
       "dom.iterable",
@@ -18,12 +18,23 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": "src",
+    "paths": {
+      "*": [
+        "*"
+      ],
+      "utilities/*": [
+        "CensusTracker/utilities/*"
+      ],
+    },
+    "exclude": [
+      "src/CakewalkExp",
+      "src/CensusTracker",
+      "src/CensusMaestro"
+    ]
   },
   "include": [
-    "src"
+    "src/**/*",
   ],
-  "exclude": [
-    "src/CakewalkExp"
-  ]
 }
